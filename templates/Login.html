@@ -2,7 +2,7 @@
 	<a class="hiddenanchor" id="tologin"></a>
 	<div id="wrapper">
 		<div id="login" class="animate form">
-			<form  action="{{ url_for('Login') }}" method = "post"> 
+			<form  action="{{ url_for('login') }}" method = "post"> 
 				<h1>Login Page</h1> 
 				<p> 
 					<label for="username" class="uname" data-icon="u" > Your email or username </label>
@@ -21,7 +21,7 @@
 				</p>
 				<p class="change_link">
 					Not registered yet ?
-					<a href="register.html" class="to_register">Register</a>
+					<a href="{{url_for('register')}}" class="to_register">Register</a>
 				</p>
 			</form>
 		</div>

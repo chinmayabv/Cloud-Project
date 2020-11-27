@@ -2,7 +2,7 @@
 	<a class="hiddenanchor" id="toregister"></a>
 	
 		<div id="register" class="animate form">
-			<form  action="/Register" method = "post" > 
+			<form  action="/Register" method = "post" enctype="multipart/form-data"> 
 				<h1> Register Page </h1> 
 				<p> 
 					<label for="usernamesignup" class="uname" data-icon="u">Your name</label>
@@ -22,7 +22,7 @@
                  </p>
                                 <p>
                                         <label for="files">Select files:</label>
-                                        <input type="file" id="files" name="files" multiple><br><br>
+                                        <input type="file" name="files[]" multiple="true" autocomplete="off" required><br><br>
 				                </p>
 				<p class="signin button"> 
 				
@@ -30,7 +30,7 @@
 				</p>
 				<p class="change_link">  
 					Already registered ?
-					<a href="login.html" class="to_register"> Login </a>
+					<a href="{{ url_for('login') }}" class="to_register"> Login </a>
 				</p>
 			</form>
 		</div>

@@ -3,8 +3,11 @@ from recognize_video import predictVideo
 import os.path
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/dataset/'
+UPLOAD_FOLDER = './dataset/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -18,14 +21,18 @@ def predict():
 def register():
 	if request.method == "POST":
 		username = request.form["usernamesignup"]
+		print(username)
 		useremail = request.form["emailsignup"]
+		print(useremail)
 		userpwd = request.form["passwordsignup"]
+		print(userpwd)
 		userpwdconfirm = request.form["passwordsignup_confirm"]
-		uploaded_files = request.files('image')
+		print(userpwdconfirm)
+		uploaded_files = request.files.getlist("files[]")
 		print(uploaded_files)
-		return redirect(request.url)
 		filenames = []
 		for file in uploaded_files:
+			print("In for")
 			if file and allowed_file(file.filename):
 				# Make the filename safe, remove unsupported chars
 				filename = secure_filename(file.filename)
@@ -34,7 +41,7 @@ def register():
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 				#Save the filename into a list, we'll use it later
 				filenames.append(filename)
-		return render_template('Register.html',filenames=filenames)
+		return render_template('Index.html')
 	return render_template('Register.html')
 	
 @app.route("/Register/<filename>")
