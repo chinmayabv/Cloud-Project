@@ -1,7 +1,4 @@
 brotlipy==0.7.0
-conda==4.9.2
-conda-package-handling==1.7.2
-dlib==19.21.0
 Flask==1.1.2
 imutils==0.5.3
 matplotlib==3.3.3
@@ -16,3 +13,4 @@ setuptools==50.3.1.post20201107
 tornado==6.1
 tqdm==4.51.0
 wheel==0.35.1
+

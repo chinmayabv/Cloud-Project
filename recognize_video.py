@@ -34,16 +34,17 @@ def predictVideo(detectorfile,embeddingmodelfile,recognizerfile,labelencoderfile
 
 	# initialize the video stream, then allow the camera sensor to warm up
 	print("[INFO] starting video stream...")
-	vs = VideoStream(src=0).start()
+	#vs = cv2.VideoCapture(0)
+	vs = cv2.VideoCapture(0)
 	time.sleep(2.0)
 
-	# start the FPS throughput estimator
+	# start the FPS throughput estimator 	
 	fps = FPS().start()
 
 	# loop over frames from the video file stream
 	while True:
 		# grab the frame from the threaded video stream
-		frame = vs.read()
+		success,frame = vs.read()
 
 		# resize the frame to have a width of 600 pixels (while
 		# maintaining the aspect ratio), and then grab the image
@@ -107,6 +108,7 @@ def predictVideo(detectorfile,embeddingmodelfile,recognizerfile,labelencoderfile
 					cv2.putText(frame, text, (startX, y),
 								cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 				return name
+				
 
 
 
