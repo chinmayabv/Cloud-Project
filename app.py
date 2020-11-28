@@ -13,9 +13,9 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route("/getstname",methods=['GET'])
 def predict():
-	name = predictVideo('face_detection_model','openface_nn4.small2.v1.t7','output/recognizer.pickle','output/le.pickle')
+	name = predictVideo('face_detection_model','openface_nn4.small2.v1.t7','output/recognizer.pickle','output/le.pickle','images/chinmay.jpg')
 	return jsonify(name)
-	
+    
 
 @app.route("/Register",methods=['POST','GET'])
 def register():
