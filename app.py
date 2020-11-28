@@ -49,8 +49,16 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 	
-@app.route("/Login",methods=['GET'])
+@app.route("/Login",methods=['GET','POST'])
 def login():
+	if request.method == "POST":
+		username = request.form["username"]
+		print(username)
+		userpwd = request.form["password"]
+		print(userpwd)
+		keeplogin = request.form["loginkeeping"]
+		print(keeplogin)
+		return render_template('Index.html')
 	return render_template('Login.html')
 	
 @app.route("/",methods=['GET'])
