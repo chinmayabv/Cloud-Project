@@ -16,3 +16,14 @@ python recognize.py --detector face_detection_model --embedding-model openface_n
 Use face recognition on real time video
 
 python recognize_video.py --detector face_detection_model --embedding-model openface_nn4.small2.v1.t7 --recognizer output/recognizer.pickle --le output/le.pickle 
+
+
+
+
+
+gsutil commands to use cloud storage on compute engine SSH:
+https://cloud.google.com/storage/docs/quickstart-gsutil#create
+
+Reading and writing files
+https://cloud.google.com/appengine/docs/standard/python/googlecloudstorageclient/read-write-to-cloud-storage
+
