@@ -1,0 +1,14 @@
+Create USER 'chinmay'@'localhost' IDENTIFIED BY 'Password@sql1'
+
+
+CREATE TABLE Student (
+    studentid int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    email varchar(255),
+    password varchar(255),
+    filename varchar(255),
+    PRIMARY KEY (studentid)
+);
+
+Insert into Student(name,email,password,filename) Values('Chinmaya','chinmayavenki2@gmail.com','chinmaya','chin.jpg');
+
