@@ -42,13 +42,16 @@ def index():
 				val = (x[0],)
 				c.execute(presentcountsql,val)
 				getAttendance = c.fetchall()
+				percent = 0
 				for att in getAttendance:
-					print(att)
+					percent += att
 				c.execute(totalclasscount)
 				gettotalclass = c.fetchall()
 				for classcount in gettotalclass:
-					print(classcount)
-			return 'Logged in as ' + username + '<br>' + "<b><a href = '/logout'>click here to log out</a></b>"
+					percent /= classcount
+				percentage = percent*100
+				return render_template('Percentage.html', percentvalue=percent)
+			 
 		except Exception as e:
 			return(str(e))
 	else:
@@ -76,7 +79,7 @@ def predict():
 				today = datetime.date.today()
 				today1 = today.strftime("%m/%d/%Y")
 				result_img = today1+"_"+filename
-				os.system("gsutil cp "+filepath+" gs://class_images")
+				#os.system("gsutil cp "+filepath+" gs://class_images")
 				name = predictimg(filepath,filename)
 				flag = insertAttendance(name)
 				if flag==True:

@@ -1,0 +1,151 @@
+body {
+  background-image: url('img1.jpg');
+  background-attachment: fixed;
+  top:50%;
+  bottom:50%;
+}
+
+h1{ 
+	color:White;
+}
+
+a{
+  color:White;
+  text-align: center;
+  font-size: 25px;
+}
+
+p{
+  color:White;
+  text-align: center;
+  font-size: 20px;
+}
+
+.animate-form{
+  font-size: 20px;
+  top:50%;
+  bottom:50%;
+}
+
+.animate{
+  text-align: center;
+}
+
+.button-box{
+	text-align: center;
+  color: White;
+  font-size: 150px;
+  top: 50%;
+  bottom:50%;
+	padding: 15px 32px;
+	margin: 4px 2px;
+	word-spacing: 16px;
+}
+
+.username{
+  font-size: 20px;
+}
+
+.submit{
+  font-size: 20px;
+}
+.password{
+  font-size: 20px;
+}
+
+.keeplogin{
+  font-size: 20px;
+  padding-left: 0.2px;
+   height: 13px
+}
+
+.login-button{
+  font-size: 16px;
+  width: 200px;
+  padding: 5px;
+}
+
+.register-button{
+  font-size: 16px;
+  width: 200px;
+  padding: 5px;
+}
+
+.files{
+  font-size: 20px;
+}
+
+.button{
+  font-size: 16px;
+  width: 200px;
+  padding: 5px;
+}
+
+.button-style{
+  text-align: center;
+  color: White;
+  font-size: 25px;
+  top: 50%;
+  bottom:50%;
+  padding: 15px 32px;
+  margin: 4px 2px;
+  word-spacing: 16px;
+}
+
+.login-button{
+  font-size: 16px;
+}
+
+.register-button{
+  font-size: 16px;
+}
+
+.checkbox {
+    white-space: nowrap;
+    height: 13px;
+}
+
+.to_register{
+  font-size:20px;
+}
+
+.to_login{
+  font-size:20px;
+}
+
+.signin-button{
+  text-align: center;
+}
+
+.header {
+  background-color: Black;
+  text-align: center;
+  width: 100%;
+  font-size: 25px;
+  color: White;
+  padding: 15px;
+}
+
+.footer { 
+  position: fixed; 
+  padding: 10px 10px 0px 10px; 
+  bottom: 0; 
+  width: 100%;
+  text-align: center; 
+  color: White;
+  /* Height of the footer*/  
+  height: 60px; 
+  background: Black; 
+} 
+
+input {
+    width: 300px;
+    padding: 0 16px;
+}
+
+input,
+input::-webkit-input-placeholder {
+    font-size: 16px;
+    line-height: 1.5;
+}
+	

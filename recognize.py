@@ -106,9 +106,10 @@ def predictimg(img,filename):
 	today = datetime.date.today()
 	today1 = today.strftime("%m/%d/%Y")
 	result_img = today1+"_report_"+filename
-	
-	cv2.imwrite(result_img, image)
-	os.system("gsutil cp "+result_img+" gs://class_images")
+	temp_img = 'temp_img.jpeg'
+	cv2.imwrite('temp_img.jpeg', image)
+	#os.system("gsutil mv "+temp_img+" "+result_img)
+	#os.system("gsutil cp "+result_img+" gs://class_images")
 	return name_list
 
 
