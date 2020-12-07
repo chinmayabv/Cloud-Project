@@ -70,7 +70,7 @@ def predict():
 				file.save(os.path.join(app.config['CHECK_FOLDER'], filename))
 				#Save the filename into a list, we'll use it later
 				filepath = Check_Folder+filename
-				name = predictimg('face_detection_model','openface_nn4.small2.v1.t7','output/recognizer.pickle','output/le.pickle',filepath)
+				name = predictimg(filepath)
 				flag = insertAttendance(name)
 				if flag==True:
 					return render_template('Attendance.html')
