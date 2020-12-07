@@ -104,7 +104,7 @@ def predictimg(img,filename):
 					cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 	# show the output image
 	today = datetime.date.today()
-	today1 = today.strftime("%m/%d/%Y")
+	today1 = today.strftime("%m_%d_%Y")
 	result_img = today1+"_report_"+filename
 	temp_img = 'temp_img.jpeg'
 	cv2.imwrite('temp_img.jpeg', image)

@@ -50,7 +50,7 @@ def index():
 				for classcount in gettotalclass:
 					percent /= classcount[0]
 				percentage = percent*100
-				return render_template('Percentage.html', percentvalue=percent)
+				return render_template('Percentage.html', percentvalue=percentage)
 			 
 		except Exception as e:
 			return(str(e))
@@ -77,13 +77,14 @@ def predict():
 				#Save the filename into a list, we'll use it later
 				filepath = Check_Folder+filename
 				today = datetime.date.today()
-				today1 = today.strftime("%m/%d/%Y")
+				today1 = today.strftime("%m_%d_%Y")
 				result_img = today1+"_"+filename
 				os.system("gsutil cp "+filepath+" gs://class_imgs")
 				name = predictimg(filepath,filename)
 				flag = insertAttendance(name)
+				imgsrcurl = "https://storage.googleapis.com/class_imgs/"+result_img
 				if flag==True:
-					return "<h1> Upload success</h1>"
+					return "<h1> Upload success<p><img src=imgsrcurl</p></h1>"
 	return render_template('Attendance.html')
 
 
@@ -247,6 +248,7 @@ def insertAttendance(stname):
 		print("In try")
 		c, conn = connection()
 		today = datetime.date.today()
+		yesterday = today - timedelta(days = 1)
 		print(stname)
 		i=0
 		while i < len(stname):
@@ -258,7 +260,7 @@ def insertAttendance(stname):
 			#print(result)
 			for x in result:
 				insertsql = "Insert into Attedance(Stid,date) Values(%s,%s);"
-				val = (x[0],today)
+				val = (x[0],yesterday)
 				c.execute(insertsql,val)
 				conn.commit()
 			i=i+1

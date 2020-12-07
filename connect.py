@@ -49,6 +49,11 @@ def deleteRecord():
 	c.execute('Delete From Student Where studentid=3')
 	conn.commit()
 	conn.close()
-	
+
+def truncateRecord():
+	c, conn = connection()
+	c.execute('Truncate Table Attedance')
+	conn.commit()
+	conn.close()
 if __name__ == "__main__":
-	deleteRecord()
+	truncateRecord()
