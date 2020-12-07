@@ -109,7 +109,7 @@ def predictimg(img,filename):
 	temp_img = 'temp_img.jpeg'
 	cv2.imwrite('temp_img.jpeg', image)
 	os.system("gsutil mv "+temp_img+" "+result_img)
-	os.system("gsutil cp "+result_img+" gs://class_images")
+	os.system("gsutil cp "+result_img+" gs://class_imgs")
 	return name_list
 
 
