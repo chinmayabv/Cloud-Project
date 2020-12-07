@@ -44,11 +44,11 @@ def index():
 				getAttendance = c.fetchall()
 				percent = 0
 				for att in getAttendance:
-					percent += att
+					percent += att[0]
 				c.execute(totalclasscount)
 				gettotalclass = c.fetchall()
 				for classcount in gettotalclass:
-					percent /= classcount
+					percent /= classcount[0]
 				percentage = percent*100
 				return render_template('Percentage.html', percentvalue=percent)
 			 
@@ -83,7 +83,7 @@ def predict():
 				name = predictimg(filepath,filename)
 				flag = insertAttendance(name)
 				if flag==True:
-					return render_template('Attendance.html')
+					return "<h1> Upload success</h1>"
 	return render_template('Attendance.html')
 
 
