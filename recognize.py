@@ -1,35 +1,36 @@
-# USAGE
-# python recognize.py --detector face_detection_model \
-#	--embedding-model openface_nn4.small2.v1.t7 \
-#	--recognizer output/recognizer.pickle \
-#	--le output/le.pickle --image images/adrian.jpg
-
 # import the necessary packages
 import numpy as np
 import argparse
 import imutils
-import pickle
+from imutils import paths
 import cv2
 import os
+import time
+from sklearn.preprocessing import LabelEncoder
+from sklearn.svm import SVC
+import argparse
+import pickle
+from google.cloud import storage
 
 
-def predictimg(detectorfile,embeddingmodelfile,recognizerfile,labelencoderfile,img):
-	# construct the argument parser and parse the arguments
-	
+
+def predictimg(img):
 
 	# load our serialized face detector from disk
 	print("[INFO] loading face detector...")
-	protoPath = os.path.join(detectorfile, "deploy.prototxt")
-	modelPath = os.path.join(detectorfile, "res10_300x300_ssd_iter_140000.caffemodel")
+	protoPath = os.path.sep.join(['face_detection_model', "deploy.prototxt"])
+	modelPath = os.path.sep.join(['face_detection_model',
+		"res10_300x300_ssd_iter_140000.caffemodel"])
 	detector = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
 
 	# load our serialized face embedding model from disk
 	print("[INFO] loading face recognizer...")
-	embedder = cv2.dnn.readNetFromTorch(embeddingmodelfile)
+	embedder = cv2.dnn.readNetFromTorch('openface_nn4.small2.v1.t7')
 
 	# load the actual face recognition model along with the label encoder
-	recognizer = pickle.loads(open(recognizerfile, "rb").read())
-	le = pickle.loads(open(labelencoderfile, "rb").read())
+	recognizer = pickle.loads(open('output/recognizer.pickle', "rb").read())
+	le = pickle.loads(open('output/le.pickle', "rb").read())
+
 
 	# load the image, resize it to have a width of 600 pixels (while
 	# maintaining the aspect ratio), and then grab the image dimensions
@@ -47,6 +48,7 @@ def predictimg(detectorfile,embeddingmodelfile,recognizerfile,labelencoderfile,i
 	detector.setInput(imageBlob)
 	detections = detector.forward()
 	name_list = []
+	
 	# loop over the detections
 	for i in range(0, detections.shape[2]):
 		# extract the confidence (i.e., probability) associated with the
@@ -54,7 +56,7 @@ def predictimg(detectorfile,embeddingmodelfile,recognizerfile,labelencoderfile,i
 		confidence = detections[0, 0, i, 2]
 
 		# filter out weak detections
-		if confidence > 0.5:
+		if confidence > args["confidence"]:
 			# compute the (x, y)-coordinates of the bounding box for the
 			# face
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
@@ -81,26 +83,35 @@ def predictimg(detectorfile,embeddingmodelfile,recognizerfile,labelencoderfile,i
 			j = np.argmax(preds)
 			proba = preds[j]
 			name = le.classes_[j]
-			
+
 			# draw the bounding box of the face along with the associated
 			# probability
-			if (proba *100) > 50:
+			if (proba *100) > 0:
 
 				text = "{}: {:.2f}%".format(name, proba * 100)
+				now = time.localtime()
+				current_time = time.strftime("%H:%M:%S", now)
+				print(text + " : IS PRESENT IN CLASS AT " + current_time)
 				name_list.append(name)
 				y = startY - 10 if startY - 10 > 10 else startY + 10
 				cv2.rectangle(image, (startX, startY), (endX, endY),
 					(0, 0, 255), 2)
 				cv2.putText(image, text, (startX, y),
 					cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
-	return name_list	
-
 
 	# show the output image
-	cv2.imshow("Image", image)
-	cv2.waitKey(0)
+	return name_list
+	result_img = 'class_res.jpeg'
 	
+	cv2.imwrite(result_img, image)
+	os.system("gsutil cp "+result_img+" gs://class_images")
+
+	
+	
+
+
 def extr_emb():
+
 
 	# load our serialized face detector from disk
 	print("[INFO] loading face detector...")
@@ -193,6 +204,7 @@ def extr_emb():
 	f = open('output/embeddings.pickle', "wb")
 	f.write(pickle.dumps(data))
 	f.close()
+
 
 
 
