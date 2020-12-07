@@ -79,7 +79,7 @@ def predict():
 				today = datetime.date.today()
 				today1 = today.strftime("%m/%d/%Y")
 				result_img = today1+"_"+filename
-				#os.system("gsutil cp "+filepath+" gs://class_images")
+				os.system("gsutil cp "+filepath+" gs://class_images")
 				name = predictimg(filepath,filename)
 				flag = insertAttendance(name)
 				if flag==True:
