@@ -12,6 +12,7 @@ import argparse
 import pickle
 import datetime
 #from google.cloud import storage
+#from google.cloud import storage
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-c", "--confidence", type=float, default=0.5,help="minimum probability to filter weak detections")
@@ -101,7 +102,6 @@ def predictimg(img,filename):
 					(0, 0, 255), 2)
 				cv2.putText(image, text, (startX, y),
 					cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
-	
 	# show the output image
 	today = datetime.date.today()
 	today1 = today.strftime("%m/%d/%Y")
@@ -110,9 +110,6 @@ def predictimg(img,filename):
 	cv2.imwrite(result_img, image)
 	os.system("gsutil cp "+result_img+" gs://class_images")
 	return name_list
-
-	
-	
 
 
 def extr_emb():
