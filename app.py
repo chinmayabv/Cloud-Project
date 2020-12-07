@@ -1,14 +1,17 @@
 from flask import Flask, jsonify, request, render_template, redirect, url_for, flash, make_response, session
 from recognize import predictimg , extr_emb,train_mod
 from connect import connection
+from flask import Flask, jsonify, request, render_template, redirect, url_for
+from recognize import predictimg
 import os.path
 from werkzeug.utils import secure_filename
 import datetime
 import subprocess
+import zipfile
 
 
 UPLOAD_FOLDER = './zipdataset/'
-UPLOAD_FOLDER1 = './dataset/'
+UNZIP_FOLDER = './dataset/'
 Check_Folder = './classphoto/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','zip'}
 
@@ -17,7 +20,7 @@ def allowed_file(filename):
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['UPLOAD_FOLDER1'] = UPLOAD_FOLDER1
+app.config['UNZIP_FOLDER'] = UNZIP_FOLDER
 app.config['CHECK_FOLDER'] = Check_Folder
 app.secret_key = 'any random string'
 
@@ -61,7 +64,7 @@ def predict():
 		#print(uploaded_files)
 		filenames = []
 		for file in uploaded_files:
-			#print("In for")
+			print("In for")
 			if file and allowed_file(file.filename):
 				# Make the filename safe, remove unsupported chars
 				filename = secure_filename(file.filename)
@@ -70,7 +73,11 @@ def predict():
 				file.save(os.path.join(app.config['CHECK_FOLDER'], filename))
 				#Save the filename into a list, we'll use it later
 				filepath = Check_Folder+filename
-				name = predictimg('face_detection_model','openface_nn4.small2.v1.t7','output/recognizer.pickle','output/le.pickle',filepath)
+				today = datetime.date.today()
+				today1 = today.strftime("%m/%d/%Y")
+				result_img = today1+"_"+filename
+				os.system("gsutil cp "+filepath+" gs://class_images")
+				name = predictimg(filepath,filename)
 				flag = insertAttendance(name)
 				if flag==True:
 					return render_template('Attendance.html')
@@ -85,7 +92,13 @@ def checkname(stname):
 		print(stname[0])
 		flag = insertAttendance(stname)
 		return"<h1> Success</h1>"
+		return redirect(url_for('checkname',stname=name))
+	return render_template('Attendance.html')
 	
+@app.route("/CheckName/<stname>",methods=['GET','POST'])
+def checkName(stname):
+	if request.method == "POST":
+		return"<h1> Success</h1>"
 	return render_template('Checkname.html',name=stname)
 		
 @app.route("/Register",methods=['POST','GET'])
@@ -111,26 +124,30 @@ def register():
 			if file and allowed_file(file.filename):
 				# Make the filename safe, remove unsupported chars
 				filename = secure_filename(file.filename)
-				# Move the file form the temporal folder to the upload
-				# folder we setup
-				file.save(os.path.join(app.config['UPLOAD_FOLDER'], username))
+				
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 				#Save the filename into a list, we'll use it later
+				usrfolder = UPLOAD_FOLDER+filename
+				extrfolder = UNZIP_FOLDER+username
+				path = os.path.join(UNZIP_FOLDER, username)
+				print(usrfolder)
+				with zipfile.ZipFile(usrfolder, 'r') as zip_ref:
+					zip_ref.extractall(UNZIP_FOLDER)
+				size = len(filename)
+				os.rename(r'./dataset/'+str(filename[:size - 4]),r'./dataset/'+str(username))
 				filenames.append(filename)
-		
-		subprocess.call(["./script1.sh"])
+			
 		print("Calling sql method")
-		flag = registerStudent(username,useremail,userpwd,dbstorename)
-
-		
+		flag = registerStudent(username,useremail,userpwd,dbstorename)		
 		print(flag)
 		if flag == False:
 			return "<h1> Record exists try a different username </h1>"
 		else:
 			session['username'] = username
-			#extr_emb()
-			#print("Extracted embeddings")
-			#train_mod()
-			#print("Model trained")
+			extr_emb()
+			print("Extracted embeddings")
+			train_mod()
+			print("Model trained")
 			return redirect(url_for('index'))
 	return render_template('Register.html')
 
@@ -139,6 +156,7 @@ def logout():
    # remove the username from the session if it is there
    session.pop('username', None)
    return redirect(url_for('index'))
+
 
 @app.route("/Register/<filename>")
 def uploaded_file(filename):
@@ -176,7 +194,7 @@ def createstudenttbl():
 def checkconnect():
 	try:
 		c, conn = connection()
-		c.execute('''SELECT * from Student''')
+		c.execute('''SELECT * from Attedance''')
 		rv = c.fetchall()
 		print(rv)
 		return("okay")
