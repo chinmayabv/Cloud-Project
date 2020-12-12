@@ -48,9 +48,10 @@ def index():
 				c.execute(totalclasscount)
 				gettotalclass = c.fetchall()
 				for classcount in gettotalclass:
-					percent /= classcount[0]
+					if classcount[0] != 0:
+						percent /= classcount[0]
 				percentage = percent*100
-				return render_template('Percentage.html', percentvalue=percentage)
+				return render_template('Percentage.html', percentvalue=percentage,stname=username)
 			 
 		except Exception as e:
 			return(str(e))
@@ -82,9 +83,10 @@ def predict():
 				os.system("gsutil cp "+filepath+" gs://class_imgs")
 				name = predictimg(filepath,filename)
 				flag = insertAttendance(name)
-				imgsrcurl = "https://storage.googleapis.com/class_imgs/"+result_img
+				
+				#imgsrcurl = "https://storage.googleapis.com/class_imgs/"+result_img
 				if flag==True:
-					return "<h1> Upload success<p><img src=imgsrcurl</p></h1>"
+					return render_template('1.html')
 	return render_template('Attendance.html')
 
 

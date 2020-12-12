@@ -1,8 +1,10 @@
 <html>
 <head> 
-<link rel = "stylesheet" href = "style.css"/>
+<link rel = "stylesheet" href = "{{url_for('static', filename='Styles.css')}}"/>
 </head>
+<div class = "header">
 <h1> Attendance Sheet For Students</h1>
+</div>
 <div id = "container-demo">
 <div class = "button-box">
 <a href="{{ url_for('login') }}" class="button">Login</a>

@@ -1,9 +1,22 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel = "stylesheet" href = "{{url_for('static', filename='Styles.css')}}"/>
+</head>
+
+<div class = "header">
+<article>
+  <header>
+    <h1>Register Form For Students</h1>
+  </header>
+</article>
+</div>
+<body>
 <div id="container_demo" >
 	<a class="hiddenanchor" id="toregister"></a>
 	
 		<div id="register" class="animate form">
 			<form  action="/Register" method = "post" enctype="multipart/form-data"> 
-				<h1> Register Page </h1> 
 				<p> 
 					<label for="usernamesignup" class="uname" data-icon="u">Your name</label>
 					<input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="Enter your name" />
@@ -24,7 +37,7 @@
                                         <label for="files">Select files:</label>
                                         <input type="file" name="files[]" multiple="true" autocomplete="off" required><br><br>
 				                </p>
-				<p class="signin button"> 
+				<p class="submit"> 
 				
 					<input type="submit" value="Register" /> 
 				</p>
@@ -37,3 +50,5 @@
 		
 	</div>
 </div>
+</body>
+</html>

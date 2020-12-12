@@ -20,6 +20,11 @@ def connection():
 	cursor = cnxn.cursor()  # initialize connection cursor # create a new 'testdb' database
 	return cursor,cnxn
 	
+def fetchall():
+	c, conn = connection()
+	c.execute('''SELECT * from Student''')
+	rv = c.fetchall()
+	print(rv)
 	
 def createStudent():
 	c, conn = connection()
@@ -46,7 +51,15 @@ def createAttendance():
 
 def deleteRecord():
 	c, conn = connection()
-	c.execute('Delete From Student Where studentid=3')
+	#sql = 
+	#val = (stid,)
+	c.execute("Delete From Student Where studentid=17")
+	conn.commit()
+	conn.close()
+	
+def setfkc():
+	c, conn = connection()
+	c.execute('SET FOREIGN_KEY_CHECKS = 0;')
 	conn.commit()
 	conn.close()
 
@@ -57,3 +70,7 @@ def truncateRecord():
 	conn.close()
 if __name__ == "__main__":
 	truncateRecord()
+	#i = 4
+	#while i<17:
+	#	deleteRecord(i)
+	#	i=i+1

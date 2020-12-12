@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html> 
-<head>
-<meta charset=utf-8 />
-<title>To calculate perceantage of attendance </title>
+<head> 
+<link rel = "stylesheet" href = "{{url_for('static', filename='Styles.css')}}"/>
 </head>
+<div class = "header">
+<article>
+  <header>
+    <h1>Login Form For Students</h1>
+  </header>
+</article>
+</div>
 <body>
 <form method="get" action="/Login">
+<label> Hi </label> <p id="name">{{ stname }}</p>
 <label> Your attendance percentage is : </label> <p id="name">{{ percentvalue }} </p>
 <button type="submit">Log out</button>
 </form>
