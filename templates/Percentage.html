@@ -6,15 +6,19 @@
 <div class = "header">
 <article>
   <header>
-    <h1>Login Form For Students</h1>
+    <h1>Attendance Report</h1>
   </header>
 </article>
 </div>
 <body>
 <form method="get" action="/Login">
-<label> Hi </label> <p id="name">{{ stname }}</p>
-<label> Your attendance percentage is : </label> <p id="name">{{ percentvalue }} </p>
+<div id = "name">
+<p>Hi {{ stname }}</p>
+<p>Your attendance percentage is : {{ percentvalue }} </p>
+<p class = "submit">
 <button type="submit">Log out</button>
+</p>
+</div>
 </form>
 </body>
 </html> 
